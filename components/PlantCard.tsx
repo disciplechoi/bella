@@ -15,6 +15,7 @@ const PlantCard = ({plant}: PlantCardProps) => {
   const { Categories,  family, name, description, origin, zone, id, climat, Img} = plant;
 
   const [isOpen, setIsOpen] = useState(false);
+  // console.log(isOpen);
 
   return (
     <div className="car-card group">
