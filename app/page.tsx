@@ -1,8 +1,16 @@
 import Image from 'next/image'
-import {Hero, SearchBar, CustomFilter} from '@/components'
+import {Hero, SearchBar, CustomFilter, PlantCard} from '@/components'
+import { fetchPlants } from '@/utils'
 
 
-export default function Home() {
+export default async function Home() {
+  const allPlants = await fetchPlants();
+
+  // console.log(allPlants);
+
+  const isDataEmpty = !Array.isArray(allPlants) || allPlants.length<1 || !allPlants;
+   
+  
   return (
    <main className="overflow-hidden">
     <Hero/>
@@ -21,6 +29,21 @@ export default function Home() {
         </div>
       </div>
 
+      {!isDataEmpty? (
+        <section>
+          <div className="home__plants-wrapper">
+            {allPlants?.slice(0,5).map((plant)=>(<PlantCard plant={plant}/>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <div className="home__error-container">
+          <h2 className="text-black text-xl">Oops, no results</h2>
+          <p>{allPlants?.message}</p>
+        </div>
+      )
+
+      }
     </div>
    </main>
   )
